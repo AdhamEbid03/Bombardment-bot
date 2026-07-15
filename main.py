@@ -21,21 +21,25 @@ bot = commands.Bot(
 
 @bot.event
 async def on_ready():
+    #Output when you run the code
     print(f"Logged in as {bot.user}")
 
 @bot.event
 async def on_message(message):
+
+    #Simple message to check if the bot is online
     if message.author == bot.user:
         return
     
     if "wake up bomb" in message.content.lower():
-        await message.channel.send(f"I'm here, what do you want, bitch ass nigga?")
+        await message.channel.send(f"Ughhh, What do YOU want?")
 
     await bot.process_commands(message)
 
 async def random_sound_loop(ctx):
     while ctx.voice_client is not None:
 
+        #Time Interval between sounds playing
         wait_time = random.randint(5, 20)
         await asyncio.sleep(wait_time)
 
@@ -60,16 +64,14 @@ async def random_sound_loop(ctx):
             continue
 
         
-        audio_src = discord.FFmpegOpusAudio(
-        sound_path,
-        executable="C:/Users/adham/Documents/ffmpeg/bin/ffmpeg.exe"
-        )
+        audio_src = discord.FFmpegOpusAudio(sound_path)
 
         ctx.voice_client.play(audio_src)
 
 @bot.command()
 async def join(ctx):
     
+    #Command to make the bot join voice chat, with the command /join
     if ctx.author.voice is None:
         await ctx.send("Get in a room, pretty boy")
         return
@@ -77,7 +79,7 @@ async def join(ctx):
     channel = ctx.author.voice.channel
 
     if ctx.voice_client is not None:
-        await ctx.send("I already joined, dumbass")
+        await ctx.send("I already joined, genius")
         return
 
     await channel.connect()
@@ -87,12 +89,13 @@ async def join(ctx):
 @bot.command()
 async def leave(ctx):
 
+    #Command to make the bot leave voice chat, with the command /leave
     if ctx.voice_client is None:
         await ctx.send("I'm not even in lmao")
         return
     
     await ctx.voice_client.disconnect()
-    await ctx.send("Aight, I'm out, later nig-... ah I mean nice guys")
+    await ctx.send("Aight, Imma head out...")
 
-
+#Handles logging, for monitoring and debugging
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)
